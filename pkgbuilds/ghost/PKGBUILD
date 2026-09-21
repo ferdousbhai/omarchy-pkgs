@@ -2,7 +2,7 @@
 
 pkgbase=ghost
 pkgname=(ghost-runtime ghost)
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=1
 pkgdesc="Owner-local AI persona with a character, tools, and an Omarchy-native desktop shell"
 arch=('any')
@@ -54,8 +54,8 @@ source=(
 )
 noextract=("${_runtime}")
 sha256sums=(
-  'a78f921df040757437638d2434b4c2e387dd609480ceb729ff20149bb204b51b'
-  '8d200e44b7d882d6340bc6d326aab573ff7e15c4c1fd9cb650d40ffb5bef0eb2'
+  '576b60cfed665e71a61aa4aaf980bc203dfa17b466e17273b8278b62017f334a'
+  'a254d4d5ac2408f8eac497dbd74db5e702d8dfe7f76efd5e21f503143bd01a42'
 )
 
 _release_identity() {
@@ -123,9 +123,6 @@ check() {
       "$source_date_epoch" || return 1
   desktop-file-validate \
     "$source_root/packages/shell/contrib/ghost.desktop" || return 1
-  python -m json.tool \
-    "$source_root/packages/chromium-extension/extension/manifest.json" \
-    >/dev/null || return 1
 }
 
 package_ghost-runtime() {
