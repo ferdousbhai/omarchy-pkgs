@@ -2,7 +2,7 @@
 
 pkgbase=ghost
 pkgname=(ghost-runtime ghost)
-pkgver=0.4.2
+pkgver=0.4.3
 pkgrel=1
 pkgdesc="Owner-local AI persona with a character, tools, and an Omarchy-native desktop shell"
 arch=('any')
@@ -54,8 +54,8 @@ source=(
 )
 noextract=("${_runtime}")
 sha256sums=(
-  '360036c246180f90a6b9f099bb7a95d2f76f92a846265899f75f031e15afad2f'
-  '15fda5f6807bce968ee93dab7d8e48660398d218a888e138298ceb40267ff52a'
+  '8ddbfd5d67f09fa5ac7ee57952274d4fa8f493a10aaf01e0b15201dfb1cc912a'
+  'a7a04943f69937fbbba5cd7c4beff11299f272fad9de4e85bf9254fc901a8c30'
 )
 
 _release_identity() {
