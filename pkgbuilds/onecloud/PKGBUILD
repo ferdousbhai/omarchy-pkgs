@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=onecloud
-pkgver=0.0.3
+pkgver=0.0.4
 pkgrel=1
 pkgdesc="Your files and settings on every Omarchy computer, end to end encrypted, in your own S3 bucket (CLI, daemon, GTK app)"
 arch=('x86_64')
@@ -11,7 +11,7 @@ makedepends=('cargo')
 options=('!debug' '!lto')
 optdepends=('restic: restore without onecloud (see `onecloud export`)')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('a6ac6c33009cc5b78edb858fa603e817adfe55c0d9f5b4e3bdd6d5f3f740a58b')
+sha256sums=('b168a1d5b867bf7eb257b866720587ca0e497290e121d53484860dee95347acb')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -21,6 +21,8 @@ prepare() {
 build() {
   cd "$pkgname-$pkgver"
   export CARGO_TARGET_DIR=target
+  # no builder paths in the binaries, so rebuilds match
+  export RUSTFLAGS="${RUSTFLAGS:-} --remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo"
   cargo build --frozen --release -p onecloud -p onecloud-app
 }
 
