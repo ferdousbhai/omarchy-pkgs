@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=onecloud
-pkgver=0.0.1
+pkgver=0.0.3
 pkgrel=1
 pkgdesc="Your files and settings on every Omarchy computer, end to end encrypted, in your own S3 bucket (CLI, daemon, GTK app)"
 arch=('x86_64')
@@ -11,7 +11,7 @@ makedepends=('cargo')
 options=('!debug' '!lto')
 optdepends=('restic: restore without onecloud (see `onecloud export`)')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('24f739298de3afe95c4c171a5c87df603b9dbb3cef0631cc8db05c5f1ebdfdf0')
+sha256sums=('a6ac6c33009cc5b78edb858fa603e817adfe55c0d9f5b4e3bdd6d5f3f740a58b')
 
 prepare() {
   cd "$pkgname-$pkgver"
