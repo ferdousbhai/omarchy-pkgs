@@ -1,0 +1,46 @@
+# Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
+pkgname=onecloud
+pkgver=0.0.1
+pkgrel=1
+pkgdesc="Your files and settings on every Omarchy computer, end to end encrypted, in your own S3 bucket (CLI, daemon, GTK app)"
+arch=('x86_64')
+url="https://github.com/ferdousbhai/onecloud"
+license=('MIT')
+depends=('glibc' 'gcc-libs' 'gtk4' 'libadwaita' 'libsecret')
+makedepends=('cargo')
+options=('!debug' '!lto')
+optdepends=('restic: restore without onecloud (see `onecloud export`)')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('24f739298de3afe95c4c171a5c87df603b9dbb3cef0631cc8db05c5f1ebdfdf0')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release -p onecloud -p onecloud-app
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export CARGO_TARGET_DIR=target
+  cargo test --frozen --release -p onecloud-core --lib
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 target/release/onecloud "$pkgdir/usr/bin/onecloud"
+  install -Dm755 target/release/onecloud-app "$pkgdir/usr/bin/onecloud-app"
+  install -Dm644 contrib/computer.onecloud.OneCloud.desktop \
+    "$pkgdir/usr/share/applications/computer.onecloud.OneCloud.desktop"
+  install -Dm644 contrib/onecloud.service "$pkgdir/usr/lib/systemd/user/onecloud.service"
+  # Enabled for every user, so an update turns it on too; the unit's
+  # condition skips users who haven't set up OneCloud.
+  install -dm755 "$pkgdir/usr/lib/systemd/user/default.target.wants"
+  ln -s ../onecloud.service "$pkgdir/usr/lib/systemd/user/default.target.wants/onecloud.service"
+  install -Dm644 README.md docs/design.md -t "$pkgdir/usr/share/doc/$pkgname"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
