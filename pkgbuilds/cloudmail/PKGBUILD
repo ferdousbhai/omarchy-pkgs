@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=cloudmail
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=1
 pkgdesc="Screened email on your own domains, running in your Cloudflare account (CLI + GTK app)"
 arch=('x86_64' 'aarch64')
@@ -14,7 +14,7 @@ optdepends=(
   'libnotify: new-mail notifications in cloudmail-gtk'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('1a7b76f733f20a71b548b27463ceb7bb0a44de8e551095cf0fd6ba9662797c46')
+sha256sums=('2e0a615798772ce91a17da2feaea31fa582c2a36aa2db0ecbecfc911c058b2ae')
 
 _srcdir() { echo "$srcdir/cloud-mail-$pkgver"; }
 
