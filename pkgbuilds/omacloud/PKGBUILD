@@ -1,17 +1,17 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=omacloud
-pkgver=0.0.8
+pkgver=0.0.13
 pkgrel=1
-pkgdesc="Your files and settings on every Omarchy computer, end to end encrypted, in your own S3 bucket (CLI, daemon, GTK app)"
+pkgdesc="Your files and settings on every Omarchy computer, end to end encrypted, in your own bucket or optionally on Omacloud storage (CLI, daemon, GTK app)"
 arch=('x86_64')
 url="https://github.com/ferdousbhai/omacloud"
 license=('MIT')
-depends=('glibc' 'gcc-libs' 'gtk4' 'libadwaita' 'libsecret')
+depends=('glibc' 'libgcc' 'gtk4' 'libadwaita' 'libsecret')
 makedepends=('cargo')
 options=('!debug' '!lto')
 optdepends=('restic: restore without omacloud (see `omacloud export`)')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('0f6ce8d37d666cb7ac4b4aae04a09417ccd0d5fcc1f5e3768eb9f7e0bb42d8e9')
+sha256sums=('47e39a7df98ad368eb24ad852290d8cb60e32d280218c0feccd8b67913a554c8')
 
 prepare() {
   cd "$pkgname-$pkgver"
