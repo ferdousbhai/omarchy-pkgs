@@ -3,7 +3,7 @@
 pkgbase=ghost
 pkgname=(ghost-runtime ghost)
 pkgver=0.6.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Owner-local AI persona with a character, tools, and an Omarchy-native desktop shell"
 arch=('any')
 url="https://github.com/ferdousbhai/ghost"
@@ -29,6 +29,7 @@ checkdepends=(
   'jq'
   'nodejs'
   'python-yaml'
+  'ripgrep'
 )
 _runtime_optdepends=(
   'chromium: the browser the relay drives, and the browser-relay smoke test'
