@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=omacloud
-pkgver=0.0.14
+pkgver=0.0.15
 pkgrel=1
 pkgdesc="Your files and settings on every Omarchy computer, end to end encrypted, in your own storage or optionally on Omacloud storage (CLI, daemon, GTK app)"
 arch=('x86_64' 'aarch64')
@@ -11,7 +11,7 @@ makedepends=('cargo')
 options=('!debug' '!lto')
 optdepends=('restic: restore without omacloud (see `omacloud export`)')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('cadbff26ac0cc3d23e8f0fc85f57efbc9fbdbca90f1d8a0563ee967f2e5e6729')
+sha256sums=('14c6954720c099493535296f2f36482abd03502494103242c33950fd2357e317')
 
 prepare() {
   cd "$pkgname-$pkgver"
