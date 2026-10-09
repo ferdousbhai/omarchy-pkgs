@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=cloudmail
-pkgver=0.4.2
+pkgver=0.5.0
 pkgrel=1
 pkgdesc="Screened email on your own domains, running in your Cloudflare account (CLI + GTK app)"
 arch=('x86_64' 'aarch64')
@@ -14,7 +14,7 @@ optdepends=(
   'libnotify: new-mail notifications in cloudmail-gtk'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('a3850ca4c8a8e67d1fa685f887543cc65c014c9e726b28d0cecc3e2912b0a516')
+sha256sums=('c6fbd375cbfda33405bdf4b89079e059617cec324037ed195161b1ebcc3ff076')
 
 _srcdir() { echo "$srcdir/cloud-mail-$pkgver"; }
 
@@ -48,7 +48,7 @@ package() {
   # Worker source for `cloudmail setup` (copied to ~/.local/share/cloudmail/worker when run).
   local w="$pkgdir/usr/share/cloudmail/worker"
   install -Dm644 -t "$w" worker/package.json worker/bun.lock worker/tsconfig.json \
-    worker/wrangler.template.jsonc worker/worker-configuration.d.ts
+    worker/cloudflare.config.ts worker/worker-configuration.d.ts
   install -Dm644 -t "$w/src" worker/src/*.ts
   install -Dm644 -t "$w/migrations" worker/migrations/*.sql
 
