@@ -1,0 +1,11 @@
+post_install() {
+  printf '\nRecall includes a CLI and bundled skill for coding agents.\n'
+  printf 'Set up the native Omarchy panel, OCR, service and agent skill as your user:\n  recall setup\n'
+  printf 'Agent instructions without desktop setup:\n  recall skill install\n'
+  printf 'Apple Silicon GPU: omarchy pkg add vulkan-asahi\n'
+  printf 'GPU diagnostics: recall doctor\n'
+  printf 'First setup downloads model/OCR assets. Personal files and indexes stay local.\n\n'
+}
+post_upgrade() {
+  printf '\nRun recall setup to update your per-user integration.\n\n'
+}
