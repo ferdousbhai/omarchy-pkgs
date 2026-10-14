@@ -1,23 +1,26 @@
 # Maintainer: Ferdous Bhai <https://github.com/ferdousbhai>
 pkgname=omarchy-recall
-pkgver=0.1.1
+pkgver=0.2.0
 pkgrel=1
 pkgdesc='Local semantic file search for Omarchy, with a CLI and bundled agent skill'
 arch=('x86_64' 'aarch64')
 url='https://github.com/ferdousbhai/omarchy-recall'
 license=('MIT')
-depends=('bash' 'python' 'python-gobject' 'gtk4' 'libadwaita' 'ffmpeg' 'poppler' 'libvips' 'gcc-libs' 'glibc' 'uv' 'xdg-utils' 'xdg-terminal-exec' 'systemd')
+depends=('bash' 'python' 'python-gobject' 'gtk4' 'libadwaita' 'ffmpeg' 'poppler' 'libvips' 'gcc-libs' 'glibc' 'vulkan-icd-loader' 'uv' 'xdg-utils' 'xdg-terminal-exec' 'systemd')
+optdepends_aarch64=('vulkan-asahi: Apple Silicon GPU acceleration on Linux')
+optdepends_x86_64=('vulkan-radeon: AMD GPU acceleration' 'vulkan-intel: Intel GPU acceleration' 'nvidia-utils: NVIDIA Vulkan userspace driver')
 optdepends=('omarchy: native search panel and desktop setup' 'neovim: open source results at the matching line' 'mpv: open media at its matching interval')
 options=('!debug' '!strip')
 install=omarchy-recall.install
 _release="https://github.com/ferdousbhai/omarchy-recall/releases/download/v${pkgver}"
 source_x86_64=("${pkgname}-${pkgver}-x86_64.tar.gz::${_release}/omarchy-recall-x86_64.tar.gz")
 source_aarch64=("${pkgname}-${pkgver}-aarch64.tar.gz::${_release}/omarchy-recall-aarch64.tar.gz")
-sha256sums_x86_64=('d8757adc2cbe19a475e357beba7e99f488733101fcc62fdd7c41ed7fd343e64d')
-sha256sums_aarch64=('70f57448d7e55cf5d37f613a43feef5e5e2f30b1fa980e5be8d03054053770bf')
+sha256sums_x86_64=('2bfebd4970b46ac2db00c98a1c9136b4537a4ab33fa8d8594b76073e7a1c99a8')
+sha256sums_aarch64=('8e29472a9f9eec54ae30eaa89674cee52baeb1b8eb4afa044e72733848e8184c')
 
 check() {
   cd "$srcdir/omarchy-recall"
+  test -f target/release/libggml-vulkan.so
   target/release/recall --help >/dev/null
   python omarchy/cli.py --help >/dev/null
   python omarchy/cli.py skill | cmp - omarchy/skills/omarchy-recall/SKILL.md
