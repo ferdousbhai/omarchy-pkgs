@@ -1,46 +1,38 @@
 # Maintainer: Ferdous Bhai <https://github.com/ferdousbhai>
 pkgname=recall-for-omarchy
-pkgver=0.3.0
+pkgver=0.4.1
 pkgrel=1
 pkgdesc='Local semantic file search for Omarchy, with a CLI and bundled agent skill'
 arch=('x86_64' 'aarch64')
 url='https://github.com/ferdousbhai/recall-for-omarchy'
 license=('MIT')
-depends=('bash' 'python' 'python-gobject' 'gtk4' 'libadwaita' 'ffmpeg' 'poppler' 'libvips' 'gcc-libs' 'glibc' 'vulkan-icd-loader' 'uv' 'xdg-utils' 'xdg-terminal-exec' 'systemd')
+depends=('bash' 'curl' 'git' 'unzip' 'glib2' 'ffmpeg' 'poppler' 'libvips' 'gcc-libs' 'glibc' 'vulkan-icd-loader' 'xdg-utils' 'xdg-terminal-exec' 'systemd')
 optdepends_aarch64=('vulkan-asahi: Apple Silicon GPU acceleration on Linux')
 optdepends_x86_64=('vulkan-radeon: AMD GPU acceleration' 'vulkan-intel: Intel GPU acceleration' 'nvidia-utils: NVIDIA Vulkan userspace driver')
-optdepends=('omarchy: native search panel and desktop setup' 'neovim: open source results at the matching line' 'mpv: open media at its matching interval')
+optdepends=('catdoc: legacy Word/Excel extraction' 'antiword: alternative legacy Word extraction' 'uv: optional OCR runtime and model installation' 'omarchy: native search panel and desktop setup' 'neovim: open source results at the matching line' 'mpv: open media at its matching interval')
 options=('!debug' '!strip')
 install=recall-for-omarchy.install
 _release="https://github.com/ferdousbhai/recall-for-omarchy/releases/download/v${pkgver}"
 source_x86_64=("${pkgname}-${pkgver}-x86_64.tar.gz::${_release}/recall-for-omarchy-x86_64.tar.gz")
 source_aarch64=("${pkgname}-${pkgver}-aarch64.tar.gz::${_release}/recall-for-omarchy-aarch64.tar.gz")
-sha256sums_x86_64=('954d8e0650e88f93d32e8a66bdfaec782fee70bae259913c0381e308b73efba3')
-sha256sums_aarch64=('a6c895dc5da195fb4098f749978ee3743b8951d0be22bc34a9f0be962631d0c3')
+sha256sums_x86_64=('923fdb58bf4651bace5c63d47f35d2455f814d56beb6da1e2c419ee490115da7')
+sha256sums_aarch64=('1ffbc89683f72a1b0e2fe8e3bf8963eff10cabe32757d81ef623c561404675f0')
 
 check() {
   cd "$srcdir/recall-for-omarchy"
   test -f target/release/libggml-vulkan.so
+  test -L target/release/libllama.so
+  target/release/recall-engine --help >/dev/null
   target/release/recall --help >/dev/null
-  python omarchy/cli.py --help >/dev/null
-  python omarchy/cli.py skill | cmp - omarchy/skills/recall/SKILL.md
-  python -m unittest discover -s omarchy/tests -v
+  target/release/recall doctor >/dev/null
+  target/release/recall skill | cmp - omarchy/skills/recall/SKILL.md
 }
 
 package() {
   cd "$srcdir/recall-for-omarchy"
-  install -dm755 "$pkgdir/usr/lib/recall-for-omarchy"
-  cp -a app omarchy scripts ocr target "$pkgdir/usr/lib/recall-for-omarchy/"
-  # Keep bytecode out of the package; Python can cache in the user's cache.
-  find "$pkgdir/usr/lib/recall-for-omarchy" -type d -name __pycache__ -prune -exec rm -rf {} +
-  local command module
-  for command in recall recall-client; do
-    module=cli
-    [[ $command == recall-client ]] && module=client
-    install -dm755 "$pkgdir/usr/bin"
-    printf '#!/bin/sh\nexec /usr/bin/python3 /usr/lib/recall-for-omarchy/omarchy/%s.py "$@"\n' "$module" > "$pkgdir/usr/bin/$command"
-    chmod 755 "$pkgdir/usr/bin/$command"
-  done
+  install -dm755 "$pkgdir/usr/lib/$pkgname" "$pkgdir/usr/bin"
+  cp -a omarchy scripts ocr target "$pkgdir/usr/lib/$pkgname/"
+  ln -s "/usr/lib/$pkgname/target/release/recall" "$pkgdir/usr/bin/recall"
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
   install -Dm644 THIRD_PARTY_NOTICES.md "$pkgdir/usr/share/licenses/$pkgname/THIRD_PARTY_NOTICES.md"
   install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
