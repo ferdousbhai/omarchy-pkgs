@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=omacloud
-pkgver=0.0.15
+pkgver=0.0.16
 pkgrel=1
 pkgdesc="Your files and settings on every Omarchy computer, end to end encrypted, in your own storage or optionally on Omacloud storage (CLI, daemon, GTK app)"
 arch=('x86_64' 'aarch64')
@@ -11,7 +11,7 @@ makedepends=('cargo')
 options=('!debug' '!lto')
 optdepends=('restic: restore without omacloud (see `omacloud export`)')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('14c6954720c099493535296f2f36482abd03502494103242c33950fd2357e317')
+sha256sums=('c09199a251ef79800f3528300838ebe724e49913fb9f77dbe37876642468230d')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -20,7 +20,7 @@ prepare() {
 
 build() {
   cd "$pkgname-$pkgver"
-  export CARGO_TARGET_DIR=target
+  export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-target}"
   # no builder paths in the binaries, so rebuilds match
   export RUSTFLAGS="${RUSTFLAGS:-} --remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo"
   cargo build --frozen --release -p omacloud -p omacloud-app
@@ -28,14 +28,14 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
-  export CARGO_TARGET_DIR=target
+  export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-target}"
   cargo test --frozen --release -p omacloud-core --lib
 }
 
 package() {
   cd "$pkgname-$pkgver"
-  install -Dm755 target/release/omacloud "$pkgdir/usr/bin/omacloud"
-  install -Dm755 target/release/omacloud-app "$pkgdir/usr/bin/omacloud-app"
+  install -Dm755 "${CARGO_TARGET_DIR:-target}/release/omacloud" "$pkgdir/usr/bin/omacloud"
+  install -Dm755 "${CARGO_TARGET_DIR:-target}/release/omacloud-app" "$pkgdir/usr/bin/omacloud-app"
   install -Dm644 contrib/com.ferdousbhai.Omacloud.desktop \
     "$pkgdir/usr/share/applications/com.ferdousbhai.Omacloud.desktop"
   install -Dm644 contrib/omacloud.service "$pkgdir/usr/lib/systemd/user/omacloud.service"
