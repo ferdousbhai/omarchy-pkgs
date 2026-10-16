@@ -1,0 +1,41 @@
+# Fork-only: build the open recipes on x86_64 the way build-pr.yml does,
+# before a maintainer approves the PR's own build. Runs on a push to this
+# branch; never part of a PR to omacom/omarchy-pkgs.
+name: x86 check
+on:
+  push:
+    branches: [x86-check]
+jobs:
+  build:
+    name: build (${{ matrix.package }}, x86_64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [icloud-for-omarchy, cloud-calendar]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build
+        env:
+          CONTAINER_ENGINE: docker
+        run: bin/build --mirror edge --arch x86_64 --package "${{ matrix.package }}"
+      - name: Check it runs on rc and stable (fast ring only)
+        if: matrix.package == 'cloud-calendar'
+        env:
+          CONTAINER_ENGINE: docker
+        run: |
+          set -euo pipefail
+          source helpers/artifact-helpers.sh
+          mapfile -t files < <(package_files build-output/edge/x86_64)
+          bin/check-fast-ring --arch x86_64 --channels "edge rc stable" --compiled "${files[@]}"
+      - name: Upload packages
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package }}-x86_64
+          path: build-output/edge/x86_64/
+          if-no-files-found: ignore
+          retention-days: 7
