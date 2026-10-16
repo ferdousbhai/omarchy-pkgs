@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=cloudmail
-pkgver=0.6.1
+pkgver=0.7.0
 pkgrel=1
 pkgdesc="Screened email on your own domains, running in your Cloudflare account (CLI + GTK app)"
 arch=('x86_64' 'aarch64')
@@ -18,7 +18,7 @@ optdepends=(
   'icloud-session: an opt-in iCloud Mail account (from icloud-for-omarchy)'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('c80ae44a19ebee17ae4122486f373c1ccb7c4320f13533d16767b21ffb88b3a4')
+sha256sums=('6f9ef05104eecc375990efb758730b16ba6ccbec56bef8626356aaa28237ded3')
 
 _srcdir() { echo "$srcdir/cloud-mail-$pkgver"; }
 
@@ -29,21 +29,21 @@ prepare() {
 
 build() {
   cd "$(_srcdir)"
-  export CARGO_TARGET_DIR=target
+  export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-target}"
   cargo build --frozen --release -p cloudmail -p cloudmail-gtk
 }
 
 check() {
   cd "$(_srcdir)"
-  export CARGO_TARGET_DIR=target
+  export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-target}"
   cargo test --frozen -p cloudmail -p cloudmail-api
 }
 
 package() {
   cd "$(_srcdir)"
-  install -Dm755 target/release/cloudmail "$pkgdir/usr/bin/cloudmail"
+  install -Dm755 "${CARGO_TARGET_DIR:-target}/release/cloudmail" "$pkgdir/usr/bin/cloudmail"
   ln -s cloudmail "$pkgdir/usr/bin/cmail"
-  install -Dm755 target/release/cloudmail-gtk "$pkgdir/usr/bin/cloudmail-gtk"
+  install -Dm755 "${CARGO_TARGET_DIR:-target}/release/cloudmail-gtk" "$pkgdir/usr/bin/cloudmail-gtk"
   install -Dm644 crates/cloudmail-gtk/data/com.ferdousbhai.Cloudmail.desktop \
     "$pkgdir/usr/share/applications/com.ferdousbhai.Cloudmail.desktop"
   install -Dm644 crates/cloudmail-gtk/data/com.ferdousbhai.Cloudmail.svg \
