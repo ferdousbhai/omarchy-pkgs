@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <23114244+ferdousbhai@users.noreply.github.com>
 pkgname=cloudmail
-pkgver=0.7.1
+pkgver=0.7.2
 pkgrel=1
 pkgdesc="Screened email on your own domains, running in your Cloudflare account (CLI + GTK app)"
 arch=('x86_64' 'aarch64')
@@ -18,7 +18,7 @@ optdepends=(
   'icloud-session: an opt-in iCloud Mail account (from icloud-for-omarchy)'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('09be67da80d7ab46e8f7029bb99a7bc8d453dee59ccb887aff4908222a1994d5')
+sha256sums=('79365a84bb573c098ef89244f2cebefd3649b0e9938e68e501324414a3f5b6e8')
 
 _srcdir() { echo "$srcdir/cloud-mail-$pkgver"; }
 
