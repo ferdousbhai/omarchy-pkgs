@@ -1,6 +1,5 @@
 {
   "source": "local",
-  "min_release_age": "24h",
   "upstream": {
     "watch": {
       "github": "ferdousbhai/icloud-for-omarchy",
