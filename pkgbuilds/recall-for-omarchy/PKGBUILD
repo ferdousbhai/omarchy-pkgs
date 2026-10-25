@@ -1,6 +1,6 @@
 # Maintainer: Ferdous Bhai <https://github.com/ferdousbhai>
 pkgname=recall-for-omarchy
-pkgver=0.4.2
+pkgver=0.4.3
 pkgrel=1
 pkgdesc='Local semantic file search for Omarchy, with a CLI and bundled agent skill'
 arch=('x86_64' 'aarch64')
@@ -15,8 +15,8 @@ install=recall-for-omarchy.install
 _release="https://github.com/ferdousbhai/recall-for-omarchy/releases/download/v${pkgver}"
 source_x86_64=("${pkgname}-${pkgver}-x86_64.tar.gz::${_release}/recall-for-omarchy-x86_64.tar.gz")
 source_aarch64=("${pkgname}-${pkgver}-aarch64.tar.gz::${_release}/recall-for-omarchy-aarch64.tar.gz")
-sha256sums_x86_64=('9ee66b51694ebfca4adcb1f84eabbef7ecab961d264e12eca6320450fcdb674e')
-sha256sums_aarch64=('07736dda0ca70657ab75a863c0f034bbcd3a448430c336bdf4e5e83a91ddfd3b')
+sha256sums_x86_64=('b6f3e908c6cde07f8b96f8e5637abe53e845bfaf0229f5fea05e9597460aa29c')
+sha256sums_aarch64=('302f23b3384760533af63644a3f08219528765572d1aeae7b6e75b54155c38b6')
 
 check() {
   cd "$srcdir/recall-for-omarchy"
