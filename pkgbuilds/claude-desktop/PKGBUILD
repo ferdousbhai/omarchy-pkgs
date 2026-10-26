@@ -6,7 +6,7 @@
 # repository's package index.
 
 pkgname=claude-desktop
-pkgver=1.46388.2
+pkgver=3.6556.2
 pkgrel=1
 pkgdesc="Official Claude desktop app with Claude Code"
 arch=('x86_64' 'aarch64')
@@ -63,8 +63,8 @@ source_x86_64=("${_deb_x86_64}::${_pool}/${_deb_x86_64}")
 source_aarch64=("${_deb_aarch64}::${_pool}/${_deb_aarch64}")
 noextract=("${_deb_x86_64}" "${_deb_aarch64}")
 sha256sums=('edfdbc63b65891ef7c481b07086c7e630fc102c042b6ed65331a52fcaf72b14a')
-sha256sums_x86_64=('98bf54e85e4916068c4281459b0f0431d8ff68034773f3ee98311d7206566ab1')
-sha256sums_aarch64=('b944a2154528815bb476bfb1e7091f8a3e329b3c67f6c11de8d41668a603bd9e')
+sha256sums_x86_64=('0f6ed1f2845c30419b8545a8320676d7464a19f625e05e02919238aa6978ecb4')
+sha256sums_aarch64=('5b70aeb6bb335b3d4684ed106ad68c7da44ff3aa47ff8db2fefe55bde810c10b')
 
 package() {
   cd "${srcdir}"
