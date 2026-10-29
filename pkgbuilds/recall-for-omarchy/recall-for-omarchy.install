@@ -2,8 +2,10 @@ post_install() {
   printf '\nRecall includes a CLI and bundled skill for coding agents.\n'
   printf 'Set up the native Omarchy panel, service and agent skill as your user:\n  recall setup\n'
   printf 'Agent instructions without desktop setup:\n  recall skill install\n'
-  printf 'Apple Silicon GPU: omarchy pkg add vulkan-asahi\n'
-  printf 'System OCR languages: recall ocr (uses bundled Tesseract)\n'
+  if [[ $(uname -m) == aarch64 ]]; then
+    printf 'Apple Silicon GPU: omarchy pkg add vulkan-asahi\n'
+  fi
+  printf 'System OCR languages: recall ocr (uses system Tesseract)\n'
   printf 'GPU diagnostics: recall doctor\n'
   printf 'Model downloads start when folders are selected. Personal files and indexes stay local.\n\n'
 }
